@@ -4,6 +4,7 @@ import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import { combineReducers } from "redux";
 import thunk from "redux-thunk";
 import counterSlice from "features/root/counterSlice";
+import appSlice from "features/root/appSlice";
 
 const createNoopStorage = () => {
   return {
@@ -26,12 +27,14 @@ const storage =
 
 const reducer = combineReducers({
   counter: counterSlice,
+  appSlice: appSlice,
 });
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
   whitelist: ["counter"],
+  blacklist: ["appSlice"],
 };
 const persistedReducer = persistReducer(persistConfig, reducer);
 
