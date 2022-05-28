@@ -1,6 +1,6 @@
 import React from "react";
 
-const Banner = () => {
+const Banner = ({ text }) => {
   return (
     <div className="w-full">
       <div className="mx-auto container py-12 px-6 xl:px-0 flex justify-center items-center flex-col mt-20 ">

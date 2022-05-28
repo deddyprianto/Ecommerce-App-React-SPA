@@ -15,9 +15,15 @@ function Cart() {
 
   useEffect(() => {
     const fnCheckDataInTheCart = () => {
+      const isItemExistInTheCart = val.find((item) => item.id === Number(id));
+      const dataSpesified = products?.filter((item) => item.id === Number(id));
       dispatch(
         actionCart({
-          val: { id, qty },
+          val: isItemExistInTheCart
+            ? val.map((item) =>
+                item.id === id ? { ...item, qty: item.stock + 1 } : item
+              )
+            : [...val, ...dataSpesified],
         })
       );
     };
@@ -127,7 +133,7 @@ function Cart() {
                 <div className="flex flex-col md:h-screen px-14 py-20 justify-between overflow-y-auto">
                   <div>
                     <p className="text-4xl font-black leading-9 text-gray-800">
-                      Summary
+                      Summary Order
                     </p>
                     <div className="flex items-center justify-between pt-16">
                       <p className="text-base leading-none text-gray-800">

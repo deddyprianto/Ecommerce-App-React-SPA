@@ -1,6 +1,6 @@
 import React from "react";
-import ParentComponents from "components/Home/Parent";
+import Home from "components/Home/Home";
 
-const HomePage = () => <ParentComponents />;
+const HomePage = () => <Home />;
 
 export default HomePage;
