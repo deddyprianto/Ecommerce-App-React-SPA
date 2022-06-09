@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   productDetail: { product: {} },
+  stateModal: {
+    modal: false,
+  },
 };
 export const appSlice = createSlice({
   name: "appSlice",
@@ -9,8 +12,11 @@ export const appSlice = createSlice({
     actionProductDetail: (state, action) => {
       state.productDetail = action.payload;
     },
+    actionModal: (state, action) => {
+      state.stateModal = action.payload;
+    },
   },
 });
-export const { actionProductDetail } = appSlice.actions;
+export const { actionProductDetail, actionModal } = appSlice.actions;
 
 export default appSlice.reducer;

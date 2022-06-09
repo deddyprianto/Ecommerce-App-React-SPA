@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { ChatAlt2Icon } from "@heroicons/react/solid";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 import Footer from "components/Footer";
 import Banner from "./Banner";
@@ -97,6 +98,7 @@ export const PlaceHolderShimmer = () => {
     </div>
   );
 };
+
 const Home = () => {
   return (
     <>
@@ -116,6 +118,9 @@ const Home = () => {
         <NewsLetter />
       </LazyLoadComponent>
       <Footer />
+      <div className="cursor-pointer absolute bottom-1 right-3  w-20 h-20 rounded-full bg-sky-500 flex justify-center items-center">
+        <ChatAlt2Icon className="text-white h-14 w-14" />
+      </div>
     </>
   );
 };

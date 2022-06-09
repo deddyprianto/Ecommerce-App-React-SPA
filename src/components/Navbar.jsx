@@ -15,7 +15,7 @@ const Navbar = () => {
   const val = state.counter.cart;
 
   return (
-    <nav className="bg-white shadow dark:bg-gray-800  fixed top-0 w-full z-50">
+    <nav className="bg-white shadow dark:bg-gray-800  fixed top-0 w-[99%] z-50">
       <div className="container px-6 py-6 mx-auto md:flex md:justify-between md:items-center">
         <div className="flex items-center justify-between">
           <NavLink to="/">
