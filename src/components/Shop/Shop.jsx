@@ -1,4 +1,5 @@
 import React from "react";
+import CurrencyFormat from "react-currency-format";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "customHook/useProducts";
 
@@ -56,7 +57,13 @@ export default function Shop() {
                       </div>
                       <div className="flex flex-col">
                         <p className="group-hover:opacity-60 transition duration-500 text-sm font-semibold leading-5 text-gray-600">
-                          Price: {item.price}
+                          Price:{" "}
+                          <CurrencyFormat
+                            value={item.price}
+                            displayType="text"
+                            thousandSeparator={true}
+                            prefix="Rp"
+                          />
                         </p>
                         <p className="group-hover:opacity-60 transition duration-500 text-sm font-semibold leading-5 text-gray-600">
                           Stock: {item.stock}

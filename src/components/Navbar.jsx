@@ -12,7 +12,7 @@ const Navbar = () => {
     setDrawer((prev) => !prev);
   };
   const state = useTrackedSelector();
-  const { val } = state.counter.cart;
+  const val = state.counter.cart;
 
   return (
     <nav className="bg-white shadow dark:bg-gray-800  fixed top-0 w-full z-50">
@@ -176,7 +176,7 @@ const Navbar = () => {
                     </select>
                   </div>
                   <p className="text-xs leading-3 text-gray-600 pt-2">
-                    Height: 10 inches
+                    Qty: {item.qty}
                   </p>
                   <p className="text-xs leading-3 text-gray-600 py-4">
                     Color: Black

@@ -1,34 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
+import CursorZoom from "react-cursor-zoom";
+import CurrencyFormat from "react-currency-format";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCart } from "features/root/counterSlice";
 
 function Cart() {
+  let allPrice = [0];
   const [stockQty, setstockQty] = useState(0);
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const { products } = useSelector((state) => state.appSlice.product);
-  const { val } = useSelector((state) => state.counter.cart);
-  const { search } = useLocation();
-  const { id } = useParams();
-  const qty = search ? Number(search.split("=")[1]) : 1;
-
+  const { product } = useSelector((state) => state.appSlice.productDetail);
+  const val = useSelector((state) => state.counter.cart);
+  // const { search } = useLocation();
+  // const qty = search ? Number(search.split("=")[1]) : 1;
   useEffect(() => {
-    const fnCheckDataInTheCart = () => {
-      const isItemExistInTheCart = val.find((item) => item.id === Number(id));
-      const dataSpesified = products?.filter((item) => item.id === Number(id));
-      dispatch(
-        actionCart({
-          val: isItemExistInTheCart
-            ? val.map((item) =>
-                item.id === id ? { ...item, qty: item.stock + 1 } : item
-              )
-            : [...val, ...dataSpesified],
-        })
-      );
-    };
-    fnCheckDataInTheCart();
+    dispatch(actionCart(product));
   }, []);
+  val.forEach((item) => {
+    let multipleAllPriceAndQty = item.price * item.qty;
+    allPrice.push(multipleAllPriceAndQty);
+  });
 
   return (
     <div>
@@ -70,7 +62,7 @@ function Cart() {
                   </p>
                 </div>
                 <p className="text-5xl font-black leading-10 text-gray-800 pt-3">
-                  Produk Detail
+                  Item di keranjang kamu
                 </p>
                 {val.map((item, i) => (
                   <div
@@ -78,10 +70,18 @@ function Cart() {
                     className="md:flex items-center mt-14 py-8 border-t border-gray-200"
                   >
                     <div className="w-1/4">
-                      <img
-                        src={item.imgSrc}
-                        alt="this is your pic"
-                        className="w-full h-full object-center object-cover"
+                      <CursorZoom
+                        image={{
+                          src: item.imgSrc,
+                          width: 400,
+                          height: 300,
+                        }}
+                        zoomImage={{
+                          src: item.imgSrc,
+                          width: 2000,
+                          height: 1600,
+                        }}
+                        cursorOffset={{ x: 0, y: 0 }}
                       />
                     </div>
                     <div className="md:pl-3 md:w-3/4">
@@ -92,37 +92,49 @@ function Cart() {
                         <p className="text-base font-black leading-none text-gray-800">
                           North wolf bag
                         </p>
-                        <select
-                          onChange={(e) => setstockQty(e.target.value)}
-                          className="py-2 px-1 border border-gray-200 mr-6 focus:outline-none"
-                        >
-                          {[...Array(item.stock).keys()].map((a, i) => (
-                            <option key={i} value={a + 1}>
-                              {a + 1}
-                            </option>
-                          ))}
-                        </select>
+                        <div className="flex items-center ">
+                          <p className="mr-2">Stock Barang</p>
+                          <select
+                            onChange={(e) => setstockQty(e.target.value)}
+                            className="py-2 px-1 border border-gray-200 mr-6 focus:outline-none"
+                          >
+                            {[...Array(item.stock).keys()].map((a, i) => (
+                              <option key={i} value={a + 1}>
+                                {a + 1}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                       <p className="text-xs leading-3 text-gray-600 pt-2">
-                        Qty: {item.qty}
+                        Jumlah List Item yg di beli: {item.qty}
                       </p>
                       <p className="text-xs leading-3 text-gray-600 py-4">
-                        Color: Black
+                        Warna: Hitam
                       </p>
                       <p className="w-96 text-xs leading-3 text-gray-600">
-                        Composition: 100% calf leather
+                        Terbuat dari: 100% calf leather
                       </p>
                       <div className="flex items-center justify-between pt-5 pr-6">
                         <div className="flex itemms-center">
                           <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">
-                            Add to favorites
+                            Tambahkan ke Favorite
                           </p>
                           <p className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">
-                            Remove
+                            Hapus
                           </p>
                         </div>
                         <p className="text-base font-black leading-none text-gray-800">
-                          {item.price}
+                          <CurrencyFormat
+                            value={
+                              stockQty < 1
+                                ? item.price * item.qty
+                                : item.price * item.qty * stockQty
+                            }
+                            displayType="text"
+                            thousandSeparator={true}
+                            prefix="Rp"
+                          />
                         </p>
                       </div>
                     </div>
@@ -133,11 +145,11 @@ function Cart() {
                 <div className="flex flex-col md:h-screen px-14 py-20 justify-between overflow-y-auto">
                   <div>
                     <p className="text-4xl font-black leading-9 text-gray-800">
-                      Summary Order
+                      Ringkasan Pembayaran
                     </p>
                     <div className="flex items-center justify-between pt-16">
                       <p className="text-base leading-none text-gray-800">
-                        Subtotal
+                        Sub Total
                       </p>
                       <p className="text-base leading-none text-gray-800">
                         $9,000
@@ -145,18 +157,18 @@ function Cart() {
                     </div>
                     <div className="flex items-center justify-between pt-5">
                       <p className="text-base leading-none text-gray-800">
-                        Shipping
+                        Pengiriman
                       </p>
                       <p className="text-base leading-none text-gray-800">
-                        $30
+                        Rp30,00
                       </p>
                     </div>
                     <div className="flex items-center justify-between pt-5">
                       <p className="text-base leading-none text-gray-800">
-                        Tax
+                        Pajak
                       </p>
                       <p className="text-base leading-none text-gray-800">
-                        $35
+                        Rp3,500
                       </p>
                     </div>
                   </div>
@@ -166,7 +178,12 @@ function Cart() {
                         Total
                       </p>
                       <p className="text-2xl font-bold leading-normal text-right text-gray-800">
-                        $10,240
+                        <CurrencyFormat
+                          value={allPrice.reduce((a, b) => a + b)}
+                          displayType="text"
+                          thousandSeparator={true}
+                          prefix="Rp"
+                        />
                       </p>
                     </div>
                     <button className="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white">

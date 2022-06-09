@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import CursorZoom from "react-cursor-zoom";
+import CurrencyFormat from "react-currency-format";
 import { useProducts } from "customHook/useProducts";
-import { actionProduct } from "features/root/appSlice";
-import { actionCart } from "features/root/counterSlice";
+import { useDispatch } from "react-redux";
+import { actionProductDetail } from "features/root/appSlice";
 
 const ProductDetail = () => {
   const [rotate, setRotate] = useState(false);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const { id } = useParams();
@@ -119,7 +120,12 @@ const ProductDetail = () => {
                     {item.description}
                   </p>
                   <p className=" font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6 ">
-                    {item.price}
+                    <CurrencyFormat
+                      value={item.price}
+                      displayType="text"
+                      thousandSeparator={true}
+                      prefix="Rp"
+                    />
                   </p>
                   <div className="lg:mt-11 mt-10">
                     <div className="flex flex-row justify-between">
@@ -204,16 +210,41 @@ const ProductDetail = () => {
                   <button
                     className="focus:outline-none focus:ring-2 hover:bg-black focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-gray-800 w-full py-5 lg:mt-12 mt-6"
                     onClick={() => {
-                      dispatch(actionProduct({ products: dataResponse }));
-                      navigate(`/cart/${item.id}?qty=${count}`);
+                      dispatch(
+                        actionProductDetail({
+                          product: {
+                            id: item.id,
+                            title: item.title,
+                            imgSrc: item.imgSrc,
+                            price: item.price,
+                            stock: item.stock,
+                            moreDescription: item.moreDescription,
+                            description: item.description,
+                            qty: count,
+                          },
+                        })
+                      );
+                      navigate("/cart");
                     }}
                   >
                     Add to shopping bag
                   </button>
                 </div>
-                <div className=" w-full sm:w-96 md:w-8/12  lg:w-6/12 flex lg:flex-row flex-col lg:gap-8 sm:gap-6 gap-4">
+                <div className="w-full sm:w-96 md:w-8/12  lg:w-6/12 flex lg:flex-row flex-col lg:gap-8 sm:gap-6 gap-4">
                   <div className=" w-full lg:w-8/12 flex justify-center items-center">
-                    <img src={item.imgSrc} alt="Wooden Chair Previw" />
+                    <CursorZoom
+                      image={{
+                        src: item.imgSrc,
+                        width: 300,
+                        height: 200,
+                      }}
+                      zoomImage={{
+                        src: item.imgSrc,
+                        width: 2000,
+                        height: 1600,
+                      }}
+                      cursorOffset={{ x: 80, y: -80 }}
+                    />
                   </div>
                   <div className=" w-full lg:w-4/12 grid lg:grid-cols-1 sm:grid-cols-4 grid-cols-2 gap-6">
                     <div className="flex justify-center items-center py-4">
