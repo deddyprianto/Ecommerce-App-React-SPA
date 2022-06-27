@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import CursorZoom from "react-cursor-zoom";
+// import CursorZoom from "react-cursor-zoom";
 import CurrencyFormat from "react-currency-format";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCart } from "features/root/counterSlice";
@@ -70,7 +70,7 @@ function Cart() {
                     className="md:flex items-center mt-14 py-8 border-t border-gray-200"
                   >
                     <div className="w-1/4">
-                      <CursorZoom
+                      {/* <CursorZoom
                         image={{
                           src: item.imgSrc,
                           width: 400,
@@ -82,7 +82,8 @@ function Cart() {
                           height: 1600,
                         }}
                         cursorOffset={{ x: 0, y: 0 }}
-                      />
+                      /> */}
+                      <img src={item.imgSrc} width={400} height={300} alt="" />
                     </div>
                     <div className="md:pl-3 md:w-3/4">
                       <p className="text-xs leading-3 text-gray-800 md:pt-0 pt-4">

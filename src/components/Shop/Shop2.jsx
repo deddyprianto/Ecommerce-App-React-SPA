@@ -1,5 +1,6 @@
 import React from "react";
 import { useProducts } from "customHook/useProducts";
+
 const MyCustomComponent = ({ item }) => (
   <div className=" relative ">
     <div className=" absolute top-0 left-0 py-2 px-4 bg-white bg-opacity-50 ">

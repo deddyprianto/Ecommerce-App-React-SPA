@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { createTrackedSelector } from "react-tracked";
-import { actionModal } from "../../features/root/appSlice";
+import { actionModal } from "features/root/appSlice";
 import Chat from "./Chat";
 const useTrackedSelector = createTrackedSelector(useSelector);
 const Modal = () => {
@@ -50,7 +50,7 @@ const Modal = () => {
                 as="h3"
                 className="text-lg font-popins font-medium leading-6 text-gray-900"
               >
-                Form Add New Post
+                Realtime Chat With Customer Service
               </Dialog.Title>
               <hr className="w-full bg-gray-100" style={{ height: "1px" }} />
               <div className="mt-5">
