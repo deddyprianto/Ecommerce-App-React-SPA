@@ -4,6 +4,9 @@ const initialState = {
   stateModal: {
     modal: false,
   },
+  dataUser: {
+    user: { name: "deddy" },
+  },
 };
 export const appSlice = createSlice({
   name: "appSlice",
@@ -15,8 +18,12 @@ export const appSlice = createSlice({
     actionModal: (state, action) => {
       state.stateModal = action.payload;
     },
+    actionSaveDataUser: (state, action) => {
+      state.dataUser = action.payload;
+    },
   },
 });
-export const { actionProductDetail, actionModal } = appSlice.actions;
+export const { actionProductDetail, actionModal, actionSaveDataUser } =
+  appSlice.actions;
 
 export default appSlice.reducer;
