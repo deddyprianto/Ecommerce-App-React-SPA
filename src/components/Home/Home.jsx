@@ -1,12 +1,17 @@
 import React from "react";
 import { ChatAlt2Icon } from "@heroicons/react/solid";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
+import { useSelector, useDispatch } from "react-redux";
+import { createTrackedSelector } from "react-tracked";
 import Footer from "components/Footer";
 import Banner from "./Banner";
 import Blog from "./Blog";
 import NewsLetter from "./NewsLetter";
 import Product from "./Product";
 import SlideShow from "./SlideShow";
+import { actionModal } from "features/root/appSlice";
+import Modal from "./Modal";
+const useTrackedSelector = createTrackedSelector(useSelector);
 
 export const PlaceHolderShimmer = () => {
   return (
@@ -100,6 +105,9 @@ export const PlaceHolderShimmer = () => {
 };
 
 const Home = () => {
+  const state = useTrackedSelector();
+  const dispatch = useDispatch();
+  const { modal } = state.appSlice.stateModal;
   return (
     <>
       <SlideShow />
@@ -118,9 +126,13 @@ const Home = () => {
         <NewsLetter />
       </LazyLoadComponent>
       <Footer />
-      <div className="cursor-pointer absolute bottom-1 right-3  w-20 h-20 rounded-full bg-sky-500 flex justify-center items-center">
+      <div
+        onClick={() => dispatch(actionModal({ modal: true }))}
+        className="cursor-pointer absolute bottom-1 right-3  w-20 h-20 rounded-full bg-sky-500 flex justify-center items-center"
+      >
         <ChatAlt2Icon className="text-white h-14 w-14" />
       </div>
+      {modal && <Modal />}
     </>
   );
 };

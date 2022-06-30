@@ -1,7 +1,7 @@
-import useSWRInfinite from "swr/infinite";
-import axios from "axios";
+import useSWRInfinite from 'swr/infinite';
+import axios from 'axios';
 
-export const usePaginationGetProduct = (url = "https://reqres.in/api") => {
+export const usePaginationGetProduct = (url = 'https://reqres.in/api') => {
   const fetcher = (url) => axios.get(url).then((res) => res.data);
   const { data, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
@@ -11,12 +11,12 @@ export const usePaginationGetProduct = (url = "https://reqres.in/api") => {
     },
     fetcher
   );
-  if (!data) return "loading";
+  if (!data) return 'loading';
   let totalUsers = 0;
   for (let i = 0; i < data.length; i++) {
     totalUsers += data[i].data.length;
   }
-  const loadMore = data && typeof data[size - 1] === "undefined";
+  const loadMore = data && typeof data[size - 1] === 'undefined';
   return {
     data: data,
     size: size,

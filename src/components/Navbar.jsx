@@ -13,9 +13,14 @@ const Navbar = () => {
   };
   const state = useTrackedSelector();
   const val = state.counter.cart;
+  const { modal } = state.appSlice.stateModal;
 
   return (
-    <nav className="bg-white shadow dark:bg-gray-800  fixed top-0 w-[99%] z-50">
+    <nav
+      className={`bg-white shadow dark:bg-gray-800  fixed top-0 w-full z-50 ${
+        modal && "-z-10"
+      }`}
+    >
       <div className="container px-6 py-6 mx-auto md:flex md:justify-between md:items-center">
         <div className="flex items-center justify-between">
           <NavLink to="/">
@@ -62,6 +67,18 @@ const Navbar = () => {
             >
               <p className="my-1 text-sm font-medium  transition-colors duration-200 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0">
                 Shop
+              </p>
+            </NavLink>
+            <NavLink
+              to="/pet"
+              style={({ isActive }) => {
+                return {
+                  color: isActive ? "#3B82F6" : "gray",
+                };
+              }}
+            >
+              <p className="my-1 text-sm font-medium  transition-colors duration-200 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0">
+                Pets
               </p>
             </NavLink>
             <NavLink
